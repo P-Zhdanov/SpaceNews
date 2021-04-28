@@ -11,7 +11,7 @@ class NewsViewController: UITableViewController {
     
     @IBOutlet var newsTableView: UITableView!
     
-    var newsArray: News = News()
+    var newsArray: [NewsData] = [NewsData]()
     var api = API()
     
     override func viewDidLoad() {
@@ -29,13 +29,7 @@ class NewsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "customNewsCell", for: indexPath) as! CustomNewsCell
-        self.api.downloadImage(from: newsArray[indexPath.row].imageURL) { data in
-            DispatchQueue.main.async {
-                cell.newsImage.image = UIImage(data: data)
-            }
-        }
-        cell.newsTitle.text = newsArray[indexPath.row].title
-        cell.newsPublishedTime.text = newsArray[indexPath.row].publishedAt
+        cell.configurationWithNews(newsArray[indexPath.row])
         return cell
     }
     
